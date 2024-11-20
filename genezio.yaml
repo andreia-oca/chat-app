@@ -25,7 +25,7 @@ backend:
             - npm run build
 frontend:
     environment:
-        VITE_API_URL_SERVERLESS: ${{ backend.functions.serverless.url }}
+        VITE_API_URL: ${{ backend.functions.serverless.url }}
     path: client
     publish: dist
     scripts:
