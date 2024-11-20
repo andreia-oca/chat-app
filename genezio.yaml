@@ -1,18 +1,24 @@
+name: chat-app
+region: eu-central-1
+yamlVersion: 2
+
 backend:
+    path: express
     functions:
         - entry: dist/app.js
           handler: handler
-          name: function-node-function
+          name: serverless
           path: .
-          type: node-function
+          type: aws
     language:
         name: js
-    path: express
     scripts:
         deploy:
             - npm install
+            - npm run build
         local:
             - npm install
+            - npm run build
 frontend:
     environment:
         VITE_API_URL_SERVERLESS: ${{ backend.functions.serverless.url }}
@@ -23,7 +29,4 @@ frontend:
             - npm run build
         deploy:
             - npm install
-    subdomain: midnightblue-somebody-baboon
-name: chat-app
-region: eu-central-1
-yamlVersion: 2
+    subdomain: my-chat
