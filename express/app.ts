@@ -157,10 +157,29 @@ app.post('/conversations/:conversationId/messages', async (req: Request, res:Res
 });
 
 // DELETE /conversations/:conversationId - Delete a conversation and its messages
-// TODO Implement the logic for this endpoint
 app.delete('/conversations/:conversationId', async (req: Request, res:Response) => {
-  res.json({ message: "not implemented" });
-  return;
+  const { conversationId } = req.params;
+
+  if (!conversationId) {
+    res.json({ message: "Missing conversationId" });
+  }
+
+  try {
+    if (process.env["CHAT_APP_DATABASE_URL"]) {
+      await connectToDatabase();
+      await Conversation.deleteOne({ conversationId });
+      await Message.deleteMany({ conversationId });
+    } else {
+      console.warn("Could not connect to the database, using mock data.");
+    }
+
+    res.json({ message: "Conversation deleted successfully" });
+    return;
+  } catch (error) {
+    console.warn("Could not connect to the database, using mock data.", error);
+    res.json({ message: "Could not delete conversation" });
+    return;
+  }
 });
 
 // You don't need to listen to the port when using serverless functions in production

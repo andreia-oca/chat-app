@@ -212,8 +212,12 @@ export default function ChatUI() {
   };
 
   const handleDeletedConversation = async (conversationId: string) => {
-    const response = await deleteConversation(conversationId);
-    if (!response.message.includes('not implemented')) {
+    try {
+      const response = await deleteConversation(conversationId);
+
+      if (!response) {
+        throw new Error('Failed to delete the conversation');
+      }
       setConversations(
         conversations.filter((conv) => conv.id !== conversationId),
       );
@@ -223,6 +227,9 @@ export default function ChatUI() {
       } else {
         setActiveConversation(null);
       }
+    } catch (error) {
+      console.error('Error in handleDeletedConversation:', error);
+      alert('Failed to delete the conversation. Please try again.');
     }
   };
 
