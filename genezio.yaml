@@ -2,6 +2,10 @@ name: chat-app
 region: eu-central-1
 yamlVersion: 2
 
+services:
+    databases:
+        - name: chat-app
+          type: mongo-atlas
 backend:
     path: express
     functions:
