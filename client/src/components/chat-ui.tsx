@@ -25,7 +25,7 @@ interface Conversation {
   messages: Message[];
 }
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+const API_URL = import.meta.env.VITE_API_URL
 
 // Mock API call - replace this with your actual API call
 const fetchConversations = async (): Promise<Conversation[]> => {
